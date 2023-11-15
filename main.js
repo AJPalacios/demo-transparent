@@ -33,7 +33,7 @@ async function createPayload(cardId) {
                 "token": cardId,
             },
             "installments": 1,
-            "amount": 10000,
+            "amount": 1000,
             "tip_amount": 0,
             "currency": "MXN",
             "country": "MX",
