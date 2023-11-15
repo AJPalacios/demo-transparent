@@ -1,4 +1,4 @@
-const clip = new Clip.Init("12345");
+const clip = new Clip.Init("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZG4");
 
 // create card element
 const card = clip.element.create('Card');
@@ -60,39 +60,35 @@ async function createPayload(cardId) {
 
 async function handleSubmit(e) {
     e.preventDefault();
-    // call to backend to process payment
-    //TODO: move this method into Card component
-    const payment = await clip.generateToken();
-    console.log("payment", payment);
-    const payload = await createPayload(payment.id);
-    
+    // call to card_token_endpoint, using the method cardToken()
+    const cardToken = await card.cardToken();
+    console.log('%c Card token!', 'color: blue; font-size: 20px; background-color: yellow;', cardToken);
 
-    // llamar al backend
+    const paymentPayload = await createPayload(cardToken.id);
+    
+    // this call will be a part of the backend library
    fetch('https://dev-api.payclip.com/payments', {
         method: 'POST',
-        body: JSON.stringify(payload),
+        body: paymentPayload,
         headers: {
             'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZG4iOiJheSUvLSx5QGopTlg_fkNPIiwiaGtpIjoxLCJleHAiOjE3MDA1MjMwOTcsImlhdCI6MTY5OTkxODI5N30.pbnDceipYOndTTMzywGA7igflT0ZQ6U2dHRLOMkGNMk',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
         }
     })
     .then(response => response.json())
     .then(data => {
-        console.log("payment executed", data);
+        console.log('%c Payment response!', 'color: blue; font-size: 20px; background-color: yellow;', data);
     }).catch(error => {
         console.error(error);
     });
+    // ***********************************************
 }
 
 
 // envia el formulario 
 
-
-// add submit event to clip form
 document.querySelector('#payment-form').addEventListener('submit', async (e) => {
     await handleSubmit(e);
 });
 
 const methods = document.getElementById('methods')
-
