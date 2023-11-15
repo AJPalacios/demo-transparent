@@ -72,7 +72,7 @@ async function handleSubmit(e) {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
-            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZG4iOiJMVD83LyZYQU0uKil3LT5LIiwiaGtpIjoxLCJleHAiOjE2OTk5MTEyMjMsImlhdCI6MTY5OTMwNjQyM30.oOw5fqD9lbKPMJHHjiLoWzR0RTyZpr6UbcjrtsrzF9E',
+            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZG4iOiJheSUvLSx5QGopTlg_fkNPIiwiaGtpIjoxLCJleHAiOjE3MDA1MjMwOTcsImlhdCI6MTY5OTkxODI5N30.pbnDceipYOndTTMzywGA7igflT0ZQ6U2dHRLOMkGNMk',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
         }
