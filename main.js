@@ -6,7 +6,7 @@ card.mount('clip');
 
 async function createPayload(cardId) {
     const payload = {
-            "description": "testing card-token data",
+            "description": "mouse asus",
             "external_reference": "627ef988-27a0-4b12-8f6c-6bd93a1f0d40", // payment request id
             "type": "ecommerce",
             "entry_mode": "manual",
@@ -40,12 +40,7 @@ async function createPayload(cardId) {
             "webhook_url": "https://hook.us1.make.com/k5f98kqxuuxgn4td6hgejrnu6lsi362p",
             // "return_url": "https://localhost:3000",
             "metadata": {
-                "payment_request": {
-                    "id": "627ef988-27a0-4b12-8f6c-6bd93a1f0d40",
-                    "code": "4XHMRD89",
-                    "type": "pad-multi-payment",
-                    "source": "MD"
-                }
+                "additional_info": "whatever we want to add",
             },
             "prevention_data": {
                 "session_id": "a68653f7-2310-40af-a7f2-43065d97954a",
