@@ -1,7 +1,7 @@
 const clip = new Clip.Init("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZG4");
 
 // create card element
-const card = clip.element.create("Card");
+const card = clip.element.create("Card", { locale: "en" });
 card.mount("clip");
 
 // Define custom styles
