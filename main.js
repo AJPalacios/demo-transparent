@@ -1,8 +1,7 @@
-const clip = new Clip.Init("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZG4");
 
-// create card element
-const card = clip.element.create("Card", { locale: "en" });
-card.mount("clip");
+// Api key from dev portal
+const clip = new Clip.Init("3f310e7e-6253-426e-b75b-76169b286e02");
+
 
 // Define custom styles
 const customStyles = {
@@ -26,101 +25,30 @@ const customStyles = {
 };
 
 // create card element
-const card2 = clip.element.create("Card", {
-  styles: customStyles,
+const card = clip.element.create("Card", {
+  theme: 'eco',
 });
-card2.mount("clip2");
-
-const stripeStyles = {
-  "form-container": {
-    "background-color": "#ffffff !important",
-    "border-radius": "8px !important",
-    padding: "40px !important",
-    "box-shadow": "0 10px 30px rgba(0,0,0,0.07) !important",
-    "font-family": "'Helvetica Neue', Helvetica, sans-serif !important",
-    margin: "20px auto !important",
-    "max-width": "500px !important",
-  },
-  "input-wrapper input": {
-    border: "1px solid #e6ebf1 !important",
-    "border-radius": "4px !important",
-    padding: "12px 14px !important",
-    "font-size": "16px !important",
-    width: "100% !important",
-    "box-sizing": "border-box !important",
-    margin: "8px 0 !important",
-    outline: "none !important",
-    transition: "box-shadow 0.3s ease, border-color 0.3s ease !important",
-  },
-  "input-wrapper input:focus": {
-    "box-shadow": `0 1px 6px rgba(50,50,93,0.1), 0 1px 3px rgba(0,0,0,0.08) !important`,
-    "border-color": "#635BFF !important", // Stripe's purple color for focus
-  },
-  "input-wrapper.validInput input": {
-    "border-color": "#4caf50 !important", // Green border for valid inputs
-  },
-  "input-wrapper.errorInput input": {
-    "border-color": "#f44336 !important", // Red border for error inputs
-  },
-  "input-wrapper .error-message": {
-    color: "#f44336 !important",
-    "font-size": "0.9rem !important",
-    "margin-top": "5px !important",
-    "margin-left": "14px !important",
-  },
-};
-
-// create card element
-const card3 = clip.element.create("Card", {
-  styles: stripeStyles,
-});
-card3.mount("clip3");
+card.mount("clip");
 
 async function createPayload(cardId) {
   const payload = {
-    description: "mouse asus",
-    external_reference: "627ef988-27a0-4b12-8f6c-6bd93a1f0d40", // payment request id
-    type: "ecommerce",
-    entry_mode: "manual",
-    payer: {
-      first_name: "Dong",
-      last_name: "Lee",
-      email: "dong.lee@payclip.com",
-      phone: "5548516236",
-      address: {
-        postal_code: "1234567",
-        street: "AnyStreet",
-        number: "AnyFloor",
-        city: "Abejones",
-        country: "MX",
-        state: "Oaxaca",
-      },
-      description: "product manager",
-      identification: {
-        id: "TEPA840621HCSXRS01",
-        type: "CURP",
-      },
-    },
-    payment_method: {
-      token: cardId,
-    },
+    description: "Mouse Asus",
+    external_reference: "627ef988-27a0-4b12-8f6c-6bd93a1f0d40",
+    first_name: "Dong",
+    last_name: "Lee",
+    email: "dong.lee@payclip.com",
+    phone: "5548516236",
+    card_token: cardId,
     installments: 1,
-    amount: 1000,
+    amount: 2000,
     tip_amount: 0,
     currency: "MXN",
     country: "MX",
-    webhook_url: "https://hook.us1.make.com/k5f98kqxuuxgn4td6hgejrnu6lsi362p",
-    // "return_url": "https://localhost:3000",
+    webhook_url: "https://transparent.requestcatcher.com/test",
     metadata: {
-      optional_info: "whatever you want to add",
+        message: "some message"
     },
-    prevention_data: {
-      session_id: "a68653f7-2310-40af-a7f2-43065d97954a",
-      device_finger_print_token: "a68653f7-2310-40af-a7f2-43065d97954c",
-    },
-    location: {
-      ip: "54.70.251.185",
-    },
+    location: "54.70.251.185"
   };
   return JSON.stringify(payload);
 }
@@ -137,13 +65,11 @@ async function handleSubmit(e) {
 
   const paymentPayload = await createPayload(cardToken.id);
 
-  // this call will be a part of the backend library
-  fetch("https://dev-api.payclip.com/payments", {
+  // Call to merchant backend to create payment, this route implements clip-backend-sdk
+  fetch("https://1f0wq8q5-3001.usw3.devtunnels.ms/api/payment", {
     method: "POST",
     body: paymentPayload,
     headers: {
-      Authorization:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZG4iOiJheSUvLSx5QGopTlg_fkNPIiwiaGtpIjoxLCJleHAiOjE3MDA1MjMwOTcsImlhdCI6MTY5OTkxODI5N30.pbnDceipYOndTTMzywGA7igflT0ZQ6U2dHRLOMkGNMk",
       "Content-Type": "application/json",
     },
   })
@@ -162,7 +88,6 @@ async function handleSubmit(e) {
 }
 
 // envia el formulario
-
 document
   .querySelector("#payment-form")
   .addEventListener("submit", async (e) => {
