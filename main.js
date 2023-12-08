@@ -1,33 +1,13 @@
-
-// Api key from dev portal
-const clip = new Clip.Init("3f310e7e-6253-426e-b75b-76169b286e02");
-
-
-// Define custom styles
-const customStyles = {
-  "form-container": {
-    backgroundColor: "#f7f7f7", // Light grey background for the form
-    borderRadius: "0",
-    padding: "30px",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.05)", // Soft shadow for depth
-    fontFamily: "'Nunito Sans', sans-serif", // Consistent font with the page
-    margin: "0 auto", // Center the form in the section
-  },
-  "input-wrapper input": {
-    border: "solid 1px #ccc !important",
-    "border-radius": "5px",
-    padding: "15px 20px !important",
-    fontSize: "16px",
-    width: "100%",
-    "margin-top": "5px !important",
-    outline: "none", // Removes the default focus outline
-  },
-};
+// Clip SDK initialization requires a api key and an environment (dev, stage) for prod you dont need to pass the env
+const clip = new ClipSDK("3f310e7e-6253-426e-b75b-76169b286e02", { env: "dev" })
 
 // create card element
+// Supported themes are: 'eco', 'dark' and default is 'bco'
+// Supported locales are: 'en', 'es' and default is the browser locale
 const card = clip.element.create("Card", {
-  theme: 'eco',
-});
+    theme: 'default',
+    locale: 'en',
+  });
 card.mount("clip");
 
 async function createPayload(cardId) {
