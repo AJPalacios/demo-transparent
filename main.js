@@ -24,7 +24,7 @@ async function createPayload(cardId, installments) {
     phone: "5548516236",
     card_token: cardId,
     installments: installments,
-    amount: 2000,
+    amount: 600,
     tip_amount: 0,
     currency: "MXN",
     country: "MX",
@@ -32,7 +32,8 @@ async function createPayload(cardId, installments) {
     metadata: {
         message: "some message"
     },
-    location: "54.70.251.185"
+    location: "54.70.251.185",
+    token: "96eb05e1-f535-4399-8374-a843b5164d8a" // this is the api key that we use to setup the sdk
   };
   return JSON.stringify(payload);
 }
