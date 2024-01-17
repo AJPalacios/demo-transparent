@@ -7,10 +7,14 @@ const clip = new ClipSDK("3f310e7e-6253-426e-b75b-76169b286e02", { env: "dev" })
 const card = clip.element.create("Card", {
     theme: 'default',
     locale: 'en',
+    terms: { // terms configuration
+      enabled: true,
+    },
+    paymentAmount: 600, // amount to process the payment,
   });
 card.mount("clip");
 
-async function createPayload(cardId) {
+async function createPayload(cardId, installments) {
   const payload = {
     description: "Mouse Asus",
     external_reference: "627ef988-27a0-4b12-8f6c-6bd93a1f0d40",
@@ -19,7 +23,7 @@ async function createPayload(cardId) {
     email: "dong.lee@payclip.com",
     phone: "5548516236",
     card_token: cardId,
-    installments: 1,
+    installments: installments,
     amount: 2000,
     tip_amount: 0,
     currency: "MXN",
@@ -35,12 +39,22 @@ async function createPayload(cardId) {
 
 async function handleSubmit(e) {
   e.preventDefault();
+  // get the installments with the method getInstallments()
+  const installments = card.installments();
+
   // call to card_token_endpoint, using the method cardToken()
   const cardToken = await card.cardToken();
+    
   console.log(
     "%c Card token!",
     "color: blue; font-size: 20px; background-color: yellow;",
     cardToken
+  );
+
+    console.log(
+    "%c Installments!",
+    "color: blue; font-size: 20px; background-color: yellow;",
+    installments
   );
 
   const paymentPayload = await createPayload(cardToken.id);
