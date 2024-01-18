@@ -1,5 +1,5 @@
 // Clip SDK initialization requires a api key and an environment (dev, stage) for prod you dont need to pass the env
-const clip = new ClipSDK("3f310e7e-6253-426e-b75b-76169b286e02", { env: "dev" })
+const clip = new ClipSDK("a15d9a83-d7c5-444f-9024-d33646b4de80", { env: "dev" })
 
 // create card element
 // Supported themes are: 'eco', 'dark' and default is 'bco'
