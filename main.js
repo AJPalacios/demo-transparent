@@ -1,5 +1,8 @@
 // Clip SDK initialization requires a api key and an environment (dev, stage) for prod you dont need to pass the env
-const clip = new ClipSDK("d179daba-9fb1-43ba-a83b-4ed1831d7528", { env: "dev" })
+
+const API_KEY = "d179daba-9fb1-43ba-a83b-4ed1831d7528";
+
+const clip = new ClipSDK(API_KEY, { env: "dev" })
 
 // create card element
 // Supported themes are: 'eco', 'dark' and default is 'bco'
@@ -33,7 +36,7 @@ async function createPayload(cardId, installments) {
         message: "some message"
     },
     location: "54.70.251.185",
-    token: "96eb05e1-f535-4399-8374-a843b5164d8a" // this is the api key that we use to setup the sdk
+    token: API_KEY // this is the api key that we use to setup the sdk
   };
   return JSON.stringify(payload);
 }
