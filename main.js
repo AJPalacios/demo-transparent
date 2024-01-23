@@ -18,7 +18,7 @@ const card = clip.element.create("Card", {
 card.mount("clip");
 
 async function createPayload(cardId, installments) {
-  const payload = {
+const payload = {
     description: "Mouse Asus",
     external_reference: "627ef988-27a0-4b12-8f6c-6bd93a1f0d40",
     first_name: "Dong",
@@ -38,7 +38,7 @@ async function createPayload(cardId, installments) {
     location: "54.70.251.185",
     token: API_KEY // this is the api key that we use to setup the sdk
   };
-  return JSON.stringify(payload);
+  return payload;
 }
 
 async function handleSubmit(e) {
@@ -66,7 +66,7 @@ async function handleSubmit(e) {
   // Call to merchant backend to create payment, this route implements clip-backend-sdk
   fetch(" https://2yrmb9ypnh.execute-api.us-west-2.amazonaws.com/live/pay", {
     method: "POST",
-    body: paymentPayload,
+    body: JSON.stringify(paymentPayload),
     headers: {
       "Content-Type": "application/json",
     },
