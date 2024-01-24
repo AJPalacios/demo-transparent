@@ -10,9 +10,6 @@ const clip = new ClipSDK(API_KEY, { env: "dev" })
 const card = clip.element.create("Card", {
     theme: 'default',
     locale: 'en',
-    terms: { // terms configuration
-      enabled: true,
-    },
     paymentAmount: 600, // amount to process the payment,
   });
 card.mount("clip");
