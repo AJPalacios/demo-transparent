@@ -1,6 +1,6 @@
 // Clip SDK initialization requires a api key and an environment (dev, stage) for prod you dont need to pass the env
 
-const API_KEY = "d179daba-9fb1-43ba-a83b-4ed1831d7528";
+const API_KEY = "d751bdf1-b998-4562-88d3-9a33f6dfacf8";
 
 const clip = new ClipSDK(API_KEY, { env: "dev" })
 
