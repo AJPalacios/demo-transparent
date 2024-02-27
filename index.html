@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="store.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,28 +16,37 @@
     <h1>DevSpace Store Checkout</h1>
     
     <section>
-      <div id="cart2">
+      <div id="cart">
         <ul>
-          <li>
+          <li style="display: flex; flex-direction: column;">
             <img
               src="https://dlcdnwebimgs.asus.com/gain/5CDAD2C0-F766-4099-A7F0-4E8AEBB4A528/w717/h525"
               alt="Mouse"
               width="200"
               height="200"
+              style="margin: 0 auto;"
             />
             <p>Mouse Asus</p>
-            <strong id="price">$2000.00 MXN</strong>
+            <strong id="price">$600.00 MXN</strong>
+            <label for="amount" style="display: flex; flex-direction: column; margin-top: 5px;">
+              Modifica el monto de la compra 👇🏻
+              <input type="number" name="amount" id="amount" style="border: 1px solid #807e7e; border-radius: 5px;">
+            </label>
           </li>
         </ul>
       </div>
 
-      <form id="payment-form" action="">
+      <form id="payment-form">
         <div id="clip"></div>
-        <button id="submit">Pagar $2000.00 MXN</button>
+        <button id="submit">Pagar $600.00 MXN</button>
       </form>
     </section>
+
+    <div id="resultado">
+      
+    </div>
     
-    <script src="https://d1p3k3qn1rvfpv.cloudfront.net/js/clip-sdk.js"></script>
+    <script src="https://sdk.clip.mx/js/clip-sdk.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
