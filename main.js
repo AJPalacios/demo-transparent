@@ -1,6 +1,5 @@
-// Clip SDK initialization requires a api key and an environment (dev, stage) for prod you dont need to pass the env
-
-const API_KEY = "d751bdf1-b998-4562-88d3-9a33f6dfacf8";
+// Clip SDK initialization requires an api key or a valid JWT token and an environment (dev, stage) for prod you dont need to pass the env
+const API_KEY = "58ce6b21-8ccd-4eda-a6bb-00b162973f7e";
 
 const clip = new ClipSDK(API_KEY, { env: "dev" })
 
@@ -10,16 +9,21 @@ const clip = new ClipSDK(API_KEY, { env: "dev" })
 const card = clip.element.create("Card", {
     theme: 'default',
     locale: 'en',
-    paymentAmount: 600, // amount to process the payment,
+    terms: { // terms configuration
+      enabled: true,
+    },
+    paymentAmount: 600,
   });
 card.mount("clip");
 
-async function createPayload(cardId, installments) {
-const payload = {
+// Merchant logic to create payment payload and send it to backend that implements clip-backend-sdk
+
+async function createPayload(cardId, installments, cardHolderData) {
+  const payload = {
     description: "Mouse Asus",
     external_reference: "627ef988-27a0-4b12-8f6c-6bd93a1f0d40",
-    first_name: "Dong",
-    last_name: "Lee",
+    first_name: cardHolderData.firstName,
+    last_name: cardHolderData.lastName,
     email: "dong.lee@payclip.com",
     phone: "5548516236",
     card_token: cardId,
@@ -32,38 +36,34 @@ const payload = {
     metadata: {
         message: "some message"
     },
-    location: "54.70.251.185",
-    token: API_KEY // this is the api key that we use to setup the sdk
   };
-  return payload;
+  return JSON.stringify(payload);
 }
 
 async function handleSubmit(e) {
   e.preventDefault();
   // get the installments with the method getInstallments()
   const installments = card.installments();
-
+  const cardHolderData = card.cardholderData();
   // call to card_token_endpoint, using the method cardToken()
   const cardToken = await card.cardToken();
-    
   console.log(
     "%c Card token!",
     "color: blue; font-size: 20px; background-color: yellow;",
     cardToken
   );
-
-    console.log(
+  console.log(
     "%c Installments!",
     "color: blue; font-size: 20px; background-color: yellow;",
     installments
   );
 
-  const paymentPayload = await createPayload(cardToken.id, installments);
+  const paymentPayload = await createPayload(cardToken.id, installments, cardHolderData);
 
   // Call to merchant backend to create payment, this route implements clip-backend-sdk
-  fetch(" https://2yrmb9ypnh.execute-api.us-west-2.amazonaws.com/live/pay", {
+  fetch("https://2yrmb9ypnh.execute-api.us-west-2.amazonaws.com/live/pay", {
     method: "POST",
-    body: JSON.stringify(paymentPayload),
+    body: paymentPayload,
     headers: {
       "Content-Type": "application/json",
     },
@@ -75,6 +75,14 @@ async function handleSubmit(e) {
         "color: blue; font-size: 20px; background-color: yellow;",
         data
       );
+      
+      if (data.status === "success") {
+        
+
+      } if (data.status === "pending") {
+        console.log("Redirecting to 3ds !");
+        window.location.href = data.pending_action.redirect_to_url.url
+      }
     })
     .catch((error) => {
       console.error(error);
@@ -88,3 +96,18 @@ document
   .addEventListener("submit", async (e) => {
     await handleSubmit(e);
   });
+
+  // const paymentAlert = document.querySelector("#resultado")
+  // paymentAlert.innerHTML = `
+  // <div class="alert alert-success" role="alert">
+  //   <h4 class="alert-heading">Payment success!</h4>
+  //   <p>Payment id: 123></p>
+  //   <hr>
+  //   <p class="mb-0">Payment status: aPPROVED</p>
+  // </div> `;
+
+// manejo del monto dinamico
+const amountInput = document.querySelector("#amount");
+amountInput.addEventListener("change", (e) => {
+  card.setAmount(e.target.value);
+});
