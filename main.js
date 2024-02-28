@@ -61,7 +61,7 @@ async function handleSubmit(e) {
   const paymentPayload = await createPayload(cardToken.id, installments, cardHolderData);
 
   // Call to merchant backend to create payment, this route implements clip-backend-sdk
-  fetch("https://2yrmb9ypnh.execute-api.us-west-2.amazonaws.com/live/pay", {
+  fetch("https://dev-tools.clip.mx/transparent/pay", {
     method: "POST",
     body: paymentPayload,
     headers: {
