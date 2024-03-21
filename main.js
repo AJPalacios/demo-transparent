@@ -41,30 +41,25 @@ async function createPayload(cardId, installments, cardHolderData, preventionDat
 // listener de envio de formulario
 document.querySelector("#payment-form").addEventListener("submit", async (event) => {
     event.preventDefault();
-    // Usamos el metodo cardToken() para generar el token de la tarjeta ingresada en el Card Element
     
-    try {
-        const cardToken = await card.cardToken();
-        console.log("Card Token: ", cardToken);
-    } catch (error) {
-        // stop the form from submitting
-        event.preventDefault();
-    }
-   
+    // Usamos el metodo cardToken() para generar el token de la tarjeta ingresada en el Card Element
+    const cardToken = await card.cardToken();
+    console.log("Card Token: ", cardToken);
+
     // Usamos el metodo installments() para obtener las cuotas seleccionadas en el Card Element
     const installments = await card.installments();
     console.log("Installments: ", installments);
+    
     // Usamos el metodo cardHolderData() para obtener los datos del tarjetahabiente ingresados en el Card Element
     const cardHolderData = await card.cardholderData();
     console.log("Card Holder Data: ", cardHolderData);
-
 
     const preventionData = await card.preventionData();
     console.log("Prevention Data: ", preventionData);
 
     const paymentPayload = await createPayload(cardToken.id, installments, cardHolderData, preventionData);
 
-    // Call to merchant backend to create payment
+    // Llamamamos a nuestro backend que tiene la pegada a payments
     fetch("https://qaezk1n3ra.execute-api.us-west-2.amazonaws.com/live/pay", {
         method: "POST",
         body: paymentPayload,
