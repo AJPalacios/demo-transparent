@@ -14,11 +14,6 @@ const card = clip.element.create("Card", {
 
 card.mount("checkout");
 
-document.querySelector("#amount").addEventListener("change", async (event) => {
-  const amount = event.target.value;
-  card.setAmount(amount);
-});
-
 async function createPayload(
   cardId,
   installments,
